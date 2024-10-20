@@ -3,7 +3,7 @@ import ollama
 
 app = Flask(__name__)
 
-with open('aivoter.modelfile', 'r') as f:
+with open('aivoter.modelfile', 'r', encoding='utf-8') as f:
     model_file = f.read()
 
 model_name = 'aivoterhelperfinal'
