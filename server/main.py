@@ -3,7 +3,7 @@ import ollama
 
 app = Flask(__name__)
 
-with open('aivoter.modelfile', 'r', encoding='utf-8') as f:
+with open('aivoter.modelfile', 'r', encoding='utf-8') as f: # Load docker file
     model_file = f.read()
 
 model_name = 'aivoterhelperfinal'
