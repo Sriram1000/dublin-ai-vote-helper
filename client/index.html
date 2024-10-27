@@ -1,57 +1,135 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<title>Home - AI Chatbot</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-	</head>
-	<body class="is-preload">
+<head>
+    <title>Home - AI Chatbot</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            color: #0056b3;
+        }
+        #chatContainer {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .input-container, .response-container {
+            margin-bottom: 20px;
+        }
+        .response {
+            background-color: #e6f7ff;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #004494;
+        }
+    </style>
+</head>
+<body class="is-preload">
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+    <!-- Wrapper -->
+    <div id="wrapper">
 
-				<!-- Main -->
-					<div id="main">
-						<div class="inner">
+        <!-- Main -->
+        <div id="main">
+            <div class="inner">
 
-<!-- this is where the chatbot will go -->
+                <!-- Chatbot -->
+                <div id="chatContainer">
+                    <h1>AI Voter Helper Chat</h1>
+                    <div class="input-container">
+                        <textarea id="userPrompt" rows="4" placeholder="Enter your prompt here..."></textarea>
+                    </div>
+                    <div class="input-container">
+                        <button onclick="sendPrompt()">Send</button>
+                    </div>
+                    <div id="responseContainer" class="response-container"></div>
+                </div>
 
+                <script>
+                    async function sendPrompt() {
+                        const prompt = document.getElementById("userPrompt").value.trim();
+                        if (!prompt) {
+                            alert("Please enter a prompt.");
+                            return;
+                        }
 
-	
-				<!-- Sidebar -->
-					<div id="sidebar">
-						<div class="inner">
+                        const responseContainer = document.getElementById("responseContainer");
+                        responseContainer.innerHTML = "<p>Loading response...</p>";
 
-							<!-- Search -->
-								<section id="search" class="alt">
-									<form method="post" action="#">
-										<input type="text" name="query" id="query" placeholder="Search" />
-									</form>
-								</section>
+                        try {
+                            const response = await fetch("http://localhost:3000/chat", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({ prompt: prompt })
+                            });
 
-							<!-- Menu -->
-								<nav id="menu">
-									<header class="major">
-										<h2>Menu</h2>
-									</header>
-									<ul>
-										<li><a href="index.html">Home - AI Chatbot</a></li>
-										<li><a href="mayor-info.html">Dublin Mayor Candidates</a></li>
-										<li><a href="voting-info.html">Voting Information</a></li>
-									</ul>
-								</nav>
-						</div>
-					</div>
+                            const data = await response.json();
 
-			</div>
+                            if (response.ok) {
+                                responseContainer.innerHTML = `<div class="response">${data.response}</div>`;
+                            } else {
+                                responseContainer.innerHTML = `<p>Error: ${data.error}</p>`;
+                            }
+                        } catch (error) {
+                            responseContainer.innerHTML = `<p>Network error: ${error.message}</p>`;
+                        }
+                    }
+                </script>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+            </div>
+        </div>
 
-	</body>
+        <!-- Sidebar -->
+        <div id="sidebar">
+            <div class="inner">
+
+                <!-- Search -->
+                <section id="search" class="alt">
+                    <form method="post" action="#">
+                        <input type="text" name="query" id="query" placeholder="Search" />
+                    </form>
+                </section>
+
+                <!-- Menu -->
+                <nav id="menu">
+                    <header class="major">
+                        <h2>Menu</h2>
+                    </header>
+                    <ul>
+                        <li><a href="index.html">Home - AI Chatbot</a></li>
+                        <li><a href="mayor-info.html">Dublin Mayor Candidates</a></li>
+                        <li><a href="voting-info.html">Voting Information</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+</body>
 </html>
