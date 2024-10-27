@@ -5,7 +5,7 @@ import flask_cors as cors
 app = Flask(__name__)
 cors.CORS(app)
 
-with open('aivoter.modelfile', 'r', encoding='utf-8') as f:
+with open('aivoter.modelfile', 'r', encoding='utf-8') as f: # Load docker file
     model_file = f.read()
 
 model_name = 'aivoterhelperfinal'
