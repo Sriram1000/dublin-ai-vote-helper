@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
 import ollama
+import flask_cors as cors
 
 app = Flask(__name__)
+cors.CORS(app)
 
 with open('aivoter.modelfile', 'r', encoding='utf-8') as f:
     model_file = f.read()
