@@ -11,6 +11,15 @@ with open('aivoter.modelfile', 'r', encoding='utf-8') as f: # Load docker file
 model_name = 'aivoterhelperfinal'
 print(model_file)
 
+@app.before_request
+def handle_options():
+    if request.method == "OPTIONS":
+        response = app.make_response("")
+        response.headers.add("Access-Control-Allow-Origin", "https://dublin-ai-vote-helper.vercel.app")
+        response.headers.add("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type, Authorization")
+        return response
+
 @app.route("/setup", methods=['GET'])
 def setup():
     try:
