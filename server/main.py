@@ -3,7 +3,7 @@ import ollama
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "https://dublin-ai-vote-helper.vercel.app"}})
+CORS(app, resources={r"/*": {"origins": "https://dublin-ai-vote-helper.vercel.app", "methods": ["GET", "POST", "OPTIONS"]}})
 
 with open('aivoter.modelfile', 'r', encoding='utf-8') as f: # Load docker file
     model_file = f.read()
