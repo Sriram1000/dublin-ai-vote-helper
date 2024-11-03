@@ -1,9 +1,9 @@
 from flask import Flask, request, jsonify
 import ollama
-import flask_cors as cors
+from flask_cors import CORS
 
 app = Flask(__name__)
-cors.CORS(app)
+CORS(app, resources={r"/*": {"origins": "https://dublin-ai-vote-helper.vercel.app"}})
 
 with open('aivoter.modelfile', 'r', encoding='utf-8') as f: # Load docker file
     model_file = f.read()
